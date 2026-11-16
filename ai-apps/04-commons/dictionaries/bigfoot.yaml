@@ -1,0 +1,50 @@
+name: bigfoot
+description: >
+  Reports of bigfoot sightings submitted to the Bigfoot Field Researchers
+  Organization (BFRO), with daily weather for the report's date and location.
+details: >
+  Reports are self-reported accounts, not verified observations. About 19% of
+  reports were not geocoded: they have no date, coordinates, or weather.
+
+tables:
+  - name: bigfoot
+    description: One row per BFRO report.
+    columns:
+      - name: report_id
+        type: number(id)
+        constraints: [primary_key]
+        description: BFRO report number.
+      - name: state
+        type: string
+        description: US state of the report.
+      - name: season
+        type: enum
+        values: [Fall, Spring, Summer, Winter, Unknown]
+      - name: classification
+        type: enum
+        values:
+          Class A: Clear eyewitness sighting; misidentification unlikely.
+          Class B: Something heard or found (sounds, tracks), not clearly seen.
+          Class C: Second-hand or low-reliability report.
+        description: BFRO credibility class.
+      - name: year
+        type: number
+        description:
+          Year of the event. Missing when the report was not geocoded.
+      - name: visibility
+        type: number(quantity)
+        description: Visibility in miles, capped at 10.
+      - name: cloud_cover
+        type: number(quantity)
+        description: Fraction of sky covered by clouds, between 0 and 1.
+      - name: moon_phase
+        type: number(quantity)
+        description: Fraction of the lunar cycle; 0 = new moon, 0.5 = full moon.
+    definitions:
+      - name: eyewitness
+        label: Eyewitness report
+        description: Report classified as a clear eyewitness sighting (Class A).
+        expr: classification = 'Class A'
+
+glossary:
+  credible sighting: An eyewitness report, i.e. classification Class A.

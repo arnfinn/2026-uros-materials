@@ -1,46 +1,42 @@
-# Building AI-powered Shiny apps in R
+# Chat with your data, and trust the answers
 
-Hands-on materials for the 90-minute workshop.
+Materials for a 90-minute workshop on building chat interfaces for data with
+querychat, using 5,021 Bigfoot sighting reports.
 
-## Before you start
+## For participants
 
-Everything is installed in the workshop cloud environment, and the LLM
-(Anthropic Claude via AWS Bedrock) is configured in `_llm.R`. Check it works
-by running in the console:
+You edit two files during the session: `app.R` and, near the end,
+`commons-app.R`. To run an app, open its file and click **Run App**, or run
+`shiny::runApp("app.R")` in the console.
 
-```r
-source("_llm.R")
-workshop_chat()$chat("Say hello in 3 words")
-```
+If you fall behind, open the numbered file for the step that just ended and
+carry on from there. Each one is a complete app.
 
-## Materials
-
-| Folder | What |
+| File | What it is |
 |---|---|
-| `01-shiny-basics/` | A small Shiny app and questions to explore how it works |
-| `02-demo/` | The finished app we are going to build |
-| `03-querychat/` | Build it step by step: `step-1.R` to `step-4.R`, solutions in `solutions/` |
-| `04-commons/` | A data agent with trusted calculations; exercise in `exercise.md` |
-| `05-extras/` | ellmer basics, evaluating with vitals, data-dict |
-| `data/` | `bigfoot.rds` and the script that created it |
+| `app.R` | Your working file. It starts as a copy of `01-shiny.R`. |
+| `01-shiny.R` | The dashboard with a dropdown, where we start |
+| `02-querychat.R` | The dashboard with a chat in place of the dropdown |
+| `03-database.R` | The same app reading from a database file |
+| `04-dictionary.R` | The finished dashboard, with the data dictionary |
+| `commons-app.R` | Your working file for the last part |
+| `05-commons.R` | The finished agent, with the dictionary and a measure |
+| `data-dict.yaml` | The data dictionary you will complete |
+| `solutions/` | The completed dictionary and the measure |
+| `take-home.md` | Exercises and links for afterwards |
 
-Each exercise file has `___` blanks to fill in. If you fall behind, open the
-matching file in `solutions/` and continue from there.
+`helpers.R` draws the map, the timeline and the table. You do not need to
+open it.
 
-## Data
+## For instructors
 
-BFRO bigfoot reports via [TidyTuesday 2022-09-13](https://github.com/rfordatascience/tidytuesday/tree/main/data/2022/2022-09-13).
-Reports are self-reported, not verified observations.
+Start with `instructor/instructor-guide.md`. The slides are in
+`slides/workshop.qmd`, and `docs/workshop-plan.md` records how the session was
+designed.
 
-## Packages
+## The data
 
-The workshop environment already has everything installed. To reproduce it on
-your own machine later, the exact versions are recorded in `renv.lock`:
-
-```r
-install.packages("renv")
-renv::restore()
-```
-
-Main packages: shiny, bslib, querychat, ellmer, commons, vitals, DT, leaflet,
-ggplot2, ggsql. The data-dict exercise also needs arrow and the data-dict CLI.
+The reports come from the Bigfoot Field Researchers Organization, by way of
+[Timothy Renner's dataset on data.world](https://data.world/timothyrenner/bfro-sightings-data)
+and the TidyTuesday project. `data-raw/prepare-data.R` builds the files in
+`data/` from `bigfoot.csv`.

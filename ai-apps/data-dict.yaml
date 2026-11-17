@@ -1,0 +1,161 @@
+$version: 0.1.0
+$learn_more: https://data-dict.tidyverse.org/
+
+name: bigfoot
+description: >
+  Bigfoot sighting reports submitted to the Bigfoot Field Researchers
+  Organization (BFRO), with the weather on the day of each sighting. One row
+  per report. About one report in five has no date and no coordinates, and
+  the weather columns are empty for those reports and for many older ones.
+  Missing values are NULL.
+
+tables:
+  - name: bigfoot
+    source:
+      parquet: data/bigfoot.parquet
+    columns:
+      - name: number
+        type: number(id)
+        constraints: [primary_key]
+        examples: [414, 7088, 17570, 35477, 67746]
+        description: BFRO report number. Identifies the report; it is not a count.
+      - name: title
+        type: string
+        examples:
+          - "Report 3350: large footprints found."
+          - "Report 9898: Family finds trackway near Bear Valley"
+          - "Report 5123: Loud calls, rock/boulder throwing disturbs campers"
+        description: >
+          Headline of the report, starting with "Report" and the report
+          number. Missing for about one report in five.
+      - name: date
+        type: date
+        range: [1869-11-10, 2021-11-27]
+        description: >
+          Date of the sighting, not the date the report was filed. A few
+          reports describe events from before 1950.
+      - name: season
+        type: enum
+        values: [Winter, Spring, Summer, Fall, Unknown]
+        constraints: [required]
+        description: >
+          Season of the sighting as given by the witness. "Unknown" means the
+          witness did not say; it is a value, not NULL.
+      - name: state
+        type: string
+        examples: [Alabama, Iowa, Nebraska, Oregon, Wyoming]
+        constraints: [required]
+        description: Full name of the US state, such as "Washington".
+      - name: county
+        type: string
+        examples: [Winston County, Skagit County, Marathon County]
+        constraints: [required]
+        description: County name including the word "County", such as "Winston County".
+      - name: latitude
+        type: number(quantity)
+        units: degrees
+        range: [25.141, 64.89139]
+        description: Latitude of the sighting, north positive.
+      - name: longitude
+        type: number(quantity)
+        units: degrees
+        range: [-167.131, -68.2283]
+        description: Longitude of the sighting. Negative, because all reports are in the western hemisphere.
+      - name: classification
+        type: enum
+        values: [Class A, Class B, Class C]
+        constraints: [required]
+        description: >
+          BFRO's rating of how direct the evidence is. See Class A, Class B
+          and Class C in the glossary. Class C is rare.
+      - name: temperature_high
+        type: number(quantity)
+        units: degrees Fahrenheit
+        range: [-0.62, 106.51]
+        description: Highest temperature on the day of the sighting.
+      - name: temperature_mid
+        type: number(quantity)
+        units: degrees Fahrenheit
+        range: [-8.455, 94.03]
+        description: Midpoint between the day's highest and lowest temperature.
+      - name: temperature_low
+        type: number(quantity)
+        units: degrees Fahrenheit
+        range: [-22.78, 84.34]
+        description: Lowest temperature on the day of the sighting.
+      - name: dew_point
+        type: number(quantity)
+        units: degrees Fahrenheit
+        range: [-11.21, 77.4]
+        description: Dew point on the day of the sighting.
+      - name: humidity
+        type: number(quantity)
+        range: [0.08, 1]
+        description: Relative humidity as a proportion from 0 to 1, not a percentage.
+      - name: cloud_cover
+        type: number(quantity)
+        range: [0, 1]
+        description: Proportion of the sky covered by cloud, from 0 (clear) to 1 (overcast).
+      - name: moon_phase
+        type: number(quantity)
+        range: [0, 1]
+        description: >
+          Position in the lunar cycle as a number from 0 to 1. 0 and 1 are a
+          new moon, 0.25 is a first quarter, 0.5 is a full moon and 0.75 is a
+          last quarter. It is not the fraction of the moon that is lit.
+      - name: precip_intensity
+        type: number(quantity)
+        units: inches per hour
+        range: [0, 2.069]
+        description: Average precipitation rate on the day. 0 means no precipitation.
+      - name: precip_probability
+        type: number(quantity)
+        range: [0, 1]
+        description: Probability of precipitation on the day, from 0 to 1.
+      - name: precip_type
+        type: enum
+        values: [rain, snow]
+        description: Kind of precipitation. NULL when there was none or it is unknown.
+      - name: pressure
+        type: number(quantity)
+        units: millibars
+        range: [980.34, 1042.41]
+        description: Sea-level air pressure.
+      - name: summary
+        type: string
+        examples:
+          - Clear throughout the day.
+          - Partly cloudy starting in the afternoon.
+          - Foggy in the morning.
+        description: >
+          One-sentence description of the day's weather. It does not describe
+          the sighting.
+      - name: uv_index
+        type: number(ordinal)
+        range: [0, 13]
+        description: Highest UV index of the day.
+      - name: visibility
+        type: number(quantity)
+        units: miles
+        range: [0.74, 10]
+        description: Average visibility, capped at 10 miles.
+      - name: wind_bearing
+        type: number(quantity)
+        units: degrees
+        range: [0, 359]
+        description: Direction the wind comes from. 0 is north and values increase clockwise.
+      - name: wind_speed
+        type: number(quantity)
+        units: miles per hour
+        range: [0, 23.94]
+        description: Average wind speed on the day.
+
+glossary:
+  BFRO: Bigfoot Field Researchers Organization, the group that collects and rates the reports.
+  Class A: >
+    A clear sighting in circumstances where mistaking another animal for the
+    creature can be ruled out with confidence.
+  Class B: >
+    A possible sighting without a clear view: seen at a great distance or in
+    poor light, or heard and not seen.
+  Class C: A second-hand or third-hand report, or a story whose source cannot be traced.

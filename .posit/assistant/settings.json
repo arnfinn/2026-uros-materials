@@ -4,7 +4,12 @@
       "*": "allow"
     },
     "positronCommand": {
-      "shiny.r.runApp": "allow"
+      "shiny.r.runApp": "allow",
+      "positronRunApp.stopApp": "allow",
+      "vscode.open": "allow"
+    },
+    "read": {
+      "*.R": "allow"
     }
   }
 }

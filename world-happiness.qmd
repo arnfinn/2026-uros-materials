@@ -33,3 +33,26 @@ ggplot(happiness, aes(x = `GDP per capita`, y = Score)) +
   theme(plot.title = element_text(size = 14, face = "bold"),
         plot.subtitle = element_text(size = 12))
 ```
+
+```{r}
+happiness |> 
+  slice_min(`Overall rank`, n = 10) |> 
+  select(`Overall rank`, `Country or region`, Score, `GDP per capita`,
+         `Social support`, `Healthy life expectancy`) |> 
+  gt() |> 
+  data_color(
+    columns = Score,
+    palette = "Greens",
+    domain = range(happiness$Score)
+  ) |> 
+  tab_header(title = "10 Happiest Countries", subtitle = "World Happiness Report, 2019") |> 
+  cols_label(
+    `Overall rank` = "Rank",
+    `Country or region` = "Country",
+    `GDP per capita` = "GDP per Capita",
+    `Social support` = "Social Support",
+    `Healthy life expectancy` = "Life Expectancy"
+  ) |> 
+  fmt_number(columns = c(Score, `GDP per capita`, `Social support`, `Healthy life expectancy`), decimals = 2) |> 
+  opt_stylize(style = 6, color = "green")
+```

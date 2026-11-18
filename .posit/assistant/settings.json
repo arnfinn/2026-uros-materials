@@ -2,6 +2,9 @@
   "permission": {
     "executeCode": {
       "*": "allow"
+    },
+    "positronCommand": {
+      "shiny.r.runApp": "allow"
     }
   }
 }

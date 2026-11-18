@@ -44,8 +44,9 @@ list(
 
 # autobracing
 condition <- TRUE
-if (condition)
+if (condition) {
   "hi"
+}
 
 # function definition
 fn <- function(a_really_long_variable_name, another_super_really_really_long_name) a_really_long_variable_name + another_super_really_really_long_name
